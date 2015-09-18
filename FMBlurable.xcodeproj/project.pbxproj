@@ -14,6 +14,7 @@
 		05C052371BAC9FC700D0108A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05C052351BAC9FC700D0108A /* LaunchScreen.storyboard */; };
 		05C052421BAC9FC700D0108A /* FMBlurableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C052411BAC9FC700D0108A /* FMBlurableTests.swift */; };
 		05C0524D1BAC9FC700D0108A /* FMBlurableUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C0524C1BAC9FC700D0108A /* FMBlurableUITests.swift */; };
+		05C0525E1BACA49200D0108A /* FMBlurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C0525D1BACA49200D0108A /* FMBlurable.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		05C052481BAC9FC700D0108A /* FMBlurableUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FMBlurableUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05C0524C1BAC9FC700D0108A /* FMBlurableUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMBlurableUITests.swift; sourceTree = "<group>"; };
 		05C0524E1BAC9FC700D0108A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		05C0525D1BACA49200D0108A /* FMBlurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FMBlurable.swift; path = blurable/FMBlurable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 		05C0522B1BAC9FC700D0108A /* FMBlurable */ = {
 			isa = PBXGroup;
 			children = (
+				05C0525A1BACA44B00D0108A /* blurable */,
 				05C0522C1BAC9FC700D0108A /* AppDelegate.swift */,
 				05C0522E1BAC9FC700D0108A /* ViewController.swift */,
 				05C052301BAC9FC700D0108A /* Main.storyboard */,
@@ -123,6 +126,14 @@
 				05C0524E1BAC9FC700D0108A /* Info.plist */,
 			);
 			path = FMBlurableUITests;
+			sourceTree = "<group>";
+		};
+		05C0525A1BACA44B00D0108A /* blurable */ = {
+			isa = PBXGroup;
+			children = (
+				05C0525D1BACA49200D0108A /* FMBlurable.swift */,
+			);
+			name = blurable;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +268,7 @@
 			files = (
 				05C0522F1BAC9FC700D0108A /* ViewController.swift in Sources */,
 				05C0522D1BAC9FC700D0108A /* AppDelegate.swift in Sources */,
+				05C0525E1BACA49200D0108A /* FMBlurable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
