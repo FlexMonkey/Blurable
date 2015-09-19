@@ -5,6 +5,7 @@
 //  Created by SIMON_NON_ADMIN on 18/09/2015.
 //  Copyright © 2015 Simon Gladman. All rights reserved.
 //
+// Thanks to romainmenke (https://twitter.com/romainmenke) for hint on a larger sample...
 
 import UIKit
 
@@ -53,13 +54,17 @@ extension Blurable
         
         let result = blur.valueForKey(kCIOutputImageKey) as! CIImage!
         
-        let cgImage = ciContext.createCGImage(result,
-            fromRect: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        let boundingRect = CGRect(x: -blurRadius * 4,
+            y: -blurRadius * 4,
+            width: frame.width + (blurRadius * 8),
+            height: frame.height + (blurRadius * 8))
+        
+        let cgImage = ciContext.createCGImage(result, fromRect: boundingRect)
 
         let filteredImage = UIImage(CGImage: cgImage)
         
         let blurOverlay = BlurOverlay()
-        blurOverlay.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+        blurOverlay.frame = boundingRect
         
         blurOverlay.image = filteredImage
         

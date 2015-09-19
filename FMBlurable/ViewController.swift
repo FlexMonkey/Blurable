@@ -85,7 +85,7 @@ class ViewController: UIViewController
         }
         else
         {
-            widget.blur(blurRadius: 4)
+            widget.blur(blurRadius: 2)
         }
     }
     
