@@ -1,9 +1,9 @@
 # Blurable
-Apply a Gaussian Blur to any UIView with Swift Protocol Extensions
+###Apply a Gaussian Blur to any UIView with Swift Protocol Extensions
 
-*Work in progress: adds `blur()` and `unBlur()` methods to `UIView` components which applies a Core Image Gaussian blur filter to the contents.*
+##### _Work in progress: adds `blur()` and `unBlur()` methods to `UIView` components which applies a Core Image Gaussian blur filter to the contents._
 
-_Companion project to this blog post: http://flexmonkey.blogspot.co.uk/2015/09/applying-gaussian-blur-to-uiviews-with.html_
+######_Companion project to this blog post: http://flexmonkey.blogspot.co.uk/2015/09/applying-gaussian-blur-to-uiviews-with.html_
 
 Here's a fun little experiment showing the power of Swift's Protocol Extensions to apply a CIGaussianBlur Core Image filter to any UIView with no developer overhead. The code could be extended to apply any Core Image filter such as a half tone screen or colour adjustment.
 
