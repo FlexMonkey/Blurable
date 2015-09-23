@@ -5,10 +5,11 @@
 
 ######_Companion project to this blog post: http://flexmonkey.blogspot.co.uk/2015/09/applying-gaussian-blur-to-uiviews-with.html_
 
-Here's a fun little experiment showing the power of Swift's Protocol Extensions to apply a CIGaussianBlur Core Image filter to any UIView with no developer overhead. The code could be extended to apply any Core Image filter such as a half tone screen or colour adjustment.
+Here's a fun little experiment showing the power of Swift's Protocol Extensions to apply a `CIGaussianBlur` Core Image filter to any `UIView` with no developer overhead. The code could be extended to apply any Core Image filter such as a half tone screen or colour adjustment.
 
-Blurable is a simple protocol that borrows some of the methods and variables from a UIView:
+`Blurable` is a simple protocol that borrows some of the methods and variables from a UIView:
 
+```swift
     var layer: CALayer { get }
     var subviews: [UIView] { get }
     var frame: CGRect { get }
@@ -16,25 +17,31 @@ Blurable is a simple protocol that borrows some of the methods and variables fro
     func addSubview(view: UIView)
 
     func bringSubviewToFront(view: UIView)
+```
 
 ...and adds a few of its own:
 
+```swift
     func blur(blurRadius blurRadius: CGFloat)
     func unBlur()
     
     var isBlurred: Bool { get }
+```
 
-Obviously, just being a protocol, it doesn't do much on its own. However, by adding an extension, I can introduce default functionality. Furthermore, by extending UIView to implement Blurable, every component from a segmented control to a horizontal slider can be blurred:
+Obviously, just being a protocol, it doesn't do much on its own. However, by adding an extension, I can introduce default functionality. Furthermore, by extending `UIView` to implement `Blurable`, every component from a segmented control to a horizontal slider can be blurred:
 
+```swift
     extension UIView: Blurable
     {
 
     }
-    
+```
+
 ##The Mechanics of Blurable
 
-Getting a blurred representation of a UIView is pretty simple: I need to begin an image context, use the view's layer's renderInContext method to render into the context and then get a UIImage from the context:
+Getting a blurred representation of a `UIView` is pretty simple: I need to begin an image context, use the view's layer's renderInContext method to render into the context and then get a UIImage from the context:
 
+```swift
     UIGraphicsBeginImageContextWithOptions(CGSize(width: frame.width, height: frame.height), false, 1)
     
     layer.renderInContext(UIGraphicsGetCurrentContext()!)
@@ -42,9 +49,11 @@ Getting a blurred representation of a UIView is pretty simple: I need to begin a
     let image = UIGraphicsGetImageFromCurrentImageContext()
 
     UIGraphicsEndImageContext();
+```
 
 Once I have the image populated, it's a fairly standard workflow to apply a Gaussian blur to it:
 
+```swift
     guard let blur = CIFilter(name: "CIGaussianBlur") else
     {
         return
@@ -65,11 +74,13 @@ Once I have the image populated, it's a fairly standard workflow to apply a Gaus
     let cgImage = ciContext.createCGImage(result, fromRect: boundingRect)
 
     let filteredImage = UIImage(CGImage: cgImage)
+```
 
-A blurred image will be larger than its input image, so I need to be explicit about the size I require in createCGImage.
+A blurred image will be larger than its input image, so I need to be explicit about the size I require in `createCGImage`.
 
-The next step is to add a UIImageView to my view and hide all the other views. I've subclassed UIImageView to BlurOverlay so that when it comes to removing it, I can be sure I'm not removing an existing UIImageView: 
+The next step is to add a `UIImageView` to my view and hide all the other views. I've subclassed `UIImageView` to `BlurOverlay` so that when it comes to removing it, I can be sure I'm not removing an existing `UIImageView`: 
 
+```swift
     let blurOverlay = BlurOverlay()
     blurOverlay.frame = boundingRect
     
@@ -77,11 +88,12 @@ The next step is to add a UIImageView to my view and hide all the other views. I
     
     subviews.forEach{ $0.hidden = true }
     
-
     addSubview(blurOverlay)
+```
 
-When it comes to de-blurring, I want to ensure the last subview is one of my BlurOverlay  remove it and unhide the existing views:
+When it comes to de-blurring, I want to ensure the last subview is one of my `BlurOverlay` remove it and unhide the existing views:
 
+```swift
     func unBlur()
     {
         if let blurOverlay = subviews.last as? BlurOverlay
@@ -92,20 +104,25 @@ When it comes to de-blurring, I want to ensure the last subview is one of my Blu
         }
 
     }
+```
 
-Finally, to see if a UIView is currently blurred, I just need to see if its last subview is a BlurOverlay:
+Finally, to see if a `UIView` is currently blurred, I just need to see if its last subview is a `BlurOverlay`:
 
+```swift
     var isBlurred: Bool
     {
         return subviews.last is BlurOverlay
     }
+```    
     
 ##Blurring a UIView
 
-To blur and de-blur, just invoke blur() and unBlur() on an UIView:
+To blur and de-blur, just invoke `blur()` and `unBlur()` on an UIView:
 
+```swift
     segmentedControl.unBlur()
     segmentedControl.blur(blurRadius: 2)
+```
 
 ##Source Code
 
