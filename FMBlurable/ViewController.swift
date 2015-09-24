@@ -17,6 +17,8 @@ class ViewController: UIViewController
     let toggleSwitch = UISwitch()
     let slider = UISlider()
     let stepper = UIStepper()
+    let unarrangedLabel = UILabel()
+    let unarrangedButton = UIButton(type: UIButtonType.InfoDark)
     
     let toolbar = UIToolbar()
     
@@ -43,6 +45,21 @@ class ViewController: UIViewController
         horizontalStackView.addArrangedSubview(stepper)
         horizontalStackView.addArrangedSubview(toggleSwitch)
       
+        unarrangedLabel.text = "Unarranged Label"
+        unarrangedLabel.frame = CGRect(x: 20,
+            y: 20,
+            width: unarrangedLabel.intrinsicContentSize().width,
+            height: unarrangedLabel.intrinsicContentSize().height)
+
+        view.addSubview(unarrangedLabel)
+        
+        unarrangedButton.setTitle("Unarranged Button", forState: UIControlState.Normal)
+        unarrangedButton.frame = CGRect(x: 20,
+            y: 50,
+            width: unarrangedButton.intrinsicContentSize().width,
+            height: unarrangedButton.intrinsicContentSize().height)
+        
+        view.addSubview(unarrangedButton)
         
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         
@@ -53,8 +70,17 @@ class ViewController: UIViewController
         let toggleSlider = UIBarButtonItem(title: BarButtonLabel.Slider.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
         
         let toggleStepper = UIBarButtonItem(title: BarButtonLabel.Stepper.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
- 
-        toolbar.setItems([toggleSegmentedControl, spacer, toggleToggleSwitch, spacer, toggleSlider, spacer, toggleStepper], animated: false)
+        
+        let toggleUnarrangedLabel = UIBarButtonItem(title: BarButtonLabel.LabelOne.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+
+        let toggleUnarrangedButton = UIBarButtonItem(title: BarButtonLabel.Button.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+        
+        toolbar.setItems([toggleSegmentedControl, spacer,
+            toggleToggleSwitch, spacer,
+            toggleSlider, spacer,
+            toggleStepper, spacer,
+            toggleUnarrangedLabel, spacer,
+            toggleUnarrangedButton], animated: false)
     }
 
     func toolbarClickHandler(barButtonItem: UIBarButtonItem)
@@ -77,6 +103,10 @@ class ViewController: UIViewController
             widget = slider
         case .Stepper:
             widget = stepper
+        case .LabelOne:
+            widget = unarrangedLabel
+        case .Button:
+            widget = unarrangedButton
         }
         
         if widget.isBlurred
@@ -103,10 +133,12 @@ class ViewController: UIViewController
 
 enum BarButtonLabel: String
 {
-    case SegmentedControl = "Segmented Control",
+    case SegmentedControl,
         Switch,
         Slider,
-        Stepper
+        Stepper,
+        LabelOne,
+        Button
 }
 
 

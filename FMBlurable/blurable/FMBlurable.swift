@@ -15,9 +15,10 @@ protocol Blurable
     var layer: CALayer { get }
     var subviews: [UIView] { get }
     var frame: CGRect { get }
+    var superview: UIView? { get }
     
     func addSubview(view: UIView)
-    func bringSubviewToFront(view: UIView)
+    func removeFromSuperview()
     
     func blur(blurRadius blurRadius: CGFloat)
     func unBlur()
@@ -29,11 +30,11 @@ extension Blurable
 {
     func blur(blurRadius blurRadius: CGFloat)
     {
-        if subviews.last is BlurOverlay
+        if self.superview == nil
         {
             return
         }
-
+        
         UIGraphicsBeginImageContextWithOptions(CGSize(width: frame.width, height: frame.height), false, 1)
         
         layer.renderInContext(UIGraphicsGetCurrentContext()!)
@@ -42,7 +43,8 @@ extension Blurable
   
         UIGraphicsEndImageContext();
         
-        guard let blur = CIFilter(name: "CIGaussianBlur") else
+        guard let blur = CIFilter(name: "CIGaussianBlur"),
+            this = self as? UIView else
         {
             return
         }
@@ -54,10 +56,10 @@ extension Blurable
         
         let result = blur.valueForKey(kCIOutputImageKey) as! CIImage!
         
-        let boundingRect = CGRect(x: -blurRadius * 4,
-            y: -blurRadius * 4,
-            width: frame.width + (blurRadius * 8),
-            height: frame.height + (blurRadius * 8))
+        let boundingRect = CGRect(x:0,
+            y: 0,
+            width: frame.width,
+            height: frame.height)
         
         let cgImage = ciContext.createCGImage(result, fromRect: boundingRect)
 
@@ -67,25 +69,65 @@ extension Blurable
         blurOverlay.frame = boundingRect
         
         blurOverlay.image = filteredImage
+        blurOverlay.contentMode = UIViewContentMode.Left
+     
+        if let superview = superview as? UIStackView,
+            index = (superview as UIStackView).arrangedSubviews.indexOf(this)
+        {
+            removeFromSuperview()
+            superview.insertArrangedSubview(blurOverlay, atIndex: index)
+        }
+        else
+        {
+            blurOverlay.frame.origin = frame.origin
+            
+            UIView.transitionFromView(this,
+                toView: blurOverlay,
+                duration: 0.2,
+                options: UIViewAnimationOptions.CurveEaseIn,
+                completion: nil)
+        }
         
-        subviews.forEach{ $0.hidden = true }
-        
-        addSubview(blurOverlay)
+        objc_setAssociatedObject(this,
+            &BlurableKey.blurable,
+            blurOverlay,
+            objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
     }
     
     func unBlur()
     {
-        if let blurOverlay = subviews.last as? BlurOverlay
+        guard let this = self as? UIView,
+            blurOverlay = objc_getAssociatedObject(self as? UIView, &BlurableKey.blurable) as? BlurOverlay else
+        {
+            return
+        }
+        
+        if let superview = blurOverlay.superview as? UIStackView,
+            index = (blurOverlay.superview as! UIStackView).arrangedSubviews.indexOf(blurOverlay)
         {
             blurOverlay.removeFromSuperview()
-            
-            subviews.forEach{ $0.hidden = false }
+            superview.insertArrangedSubview(this, atIndex: index)
         }
+        else
+        {
+            this.frame.origin = blurOverlay.frame.origin
+            
+            UIView.transitionFromView(blurOverlay,
+                toView: this,
+                duration: 0.2,
+                options: UIViewAnimationOptions.CurveEaseIn,
+                completion: nil)
+        }
+        
+        objc_setAssociatedObject(this,
+            &BlurableKey.blurable,
+            nil,
+            objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
     }
     
     var isBlurred: Bool
     {
-        return subviews.last is BlurOverlay
+        return objc_getAssociatedObject(self as? UIView, &BlurableKey.blurable) is BlurOverlay
     }
 }
 
@@ -95,4 +137,9 @@ extension UIView: Blurable
 
 class BlurOverlay: UIImageView
 {
+}
+
+struct BlurableKey
+{
+    static var blurable = "blurable"
 }
