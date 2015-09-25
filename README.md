@@ -5,6 +5,8 @@
 
 ######_Companion project to this blog post: http://flexmonkey.blogspot.co.uk/2015/09/applying-gaussian-blur-to-uiviews-with.html_
 
+![screengrab](/FMBlurable/assets/screenshot.jpg)
+
 Here's a fun little experiment showing the power of Swift's Protocol Extensions to apply a `CIGaussianBlur` Core Image filter to any `UIView` with no developer overhead. Blurable components can be simple labels or buttons or more complex composite components such as `UISegmentedControl`s and they can reside as subviews of other `UIView`s including `UIStackView`s. The code could be extended to apply any Core Image filter such as a half tone screen or colour adjustment.
 
 `Blurable` is a simple protocol that borrows some of the methods and variables from a UIView:
