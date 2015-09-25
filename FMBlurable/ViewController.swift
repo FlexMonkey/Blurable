@@ -19,6 +19,7 @@ class ViewController: UIViewController
     let stepper = UIStepper()
     let unarrangedLabel = UILabel()
     let unarrangedButton = UIButton(type: UIButtonType.InfoDark)
+    let compositeComponent = SliderWidget(title: "Composite Component")
     
     let toolbar = UIToolbar()
     
@@ -41,6 +42,7 @@ class ViewController: UIViewController
         stackView.addArrangedSubview(segmentedControl)
         stackView.addArrangedSubview(slider)
         stackView.addArrangedSubview(horizontalStackView)
+        stackView.addArrangedSubview(compositeComponent)
         
         horizontalStackView.addArrangedSubview(stepper)
         horizontalStackView.addArrangedSubview(toggleSwitch)
@@ -75,12 +77,15 @@ class ViewController: UIViewController
 
         let toggleUnarrangedButton = UIBarButtonItem(title: BarButtonLabel.Button.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
         
+       let toggleCompositeComponent = UIBarButtonItem(title: BarButtonLabel.CompositeComponent.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+        
         toolbar.setItems([toggleSegmentedControl, spacer,
             toggleToggleSwitch, spacer,
             toggleSlider, spacer,
             toggleStepper, spacer,
             toggleUnarrangedLabel, spacer,
-            toggleUnarrangedButton], animated: false)
+            toggleUnarrangedButton, spacer,
+            toggleCompositeComponent], animated: false)
     }
 
     func toolbarClickHandler(barButtonItem: UIBarButtonItem)
@@ -107,6 +112,8 @@ class ViewController: UIViewController
             widget = unarrangedLabel
         case .Button:
             widget = unarrangedButton
+        case .CompositeComponent:
+            widget = compositeComponent
         }
         
         if widget.isBlurred
@@ -138,7 +145,8 @@ enum BarButtonLabel: String
         Slider,
         Stepper,
         LabelOne,
-        Button
+        Button,
+        CompositeComponent
 }
 
 
