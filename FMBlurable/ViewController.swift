@@ -33,7 +33,7 @@ class ViewController: UIViewController
         stackView.frame = view.frame.insetBy(dx: 50, dy: 200)
         
         stackView.axis = UILayoutConstraintAxis.Vertical
-        stackView.spacing = 10
+       
         stackView.alignment = UIStackViewAlignment.Fill
         stackView.distribution = UIStackViewDistribution.EqualSpacing
         
@@ -48,18 +48,10 @@ class ViewController: UIViewController
         horizontalStackView.addArrangedSubview(toggleSwitch)
       
         unarrangedLabel.text = "Unarranged Label"
-        unarrangedLabel.frame = CGRect(x: 20,
-            y: 20,
-            width: unarrangedLabel.intrinsicContentSize().width,
-            height: unarrangedLabel.intrinsicContentSize().height)
 
         view.addSubview(unarrangedLabel)
         
         unarrangedButton.setTitle("Unarranged Button", forState: UIControlState.Normal)
-        unarrangedButton.frame = CGRect(x: 20,
-            y: 50,
-            width: unarrangedButton.intrinsicContentSize().width,
-            height: unarrangedButton.intrinsicContentSize().height)
         
         view.addSubview(unarrangedButton)
         
@@ -128,12 +120,25 @@ class ViewController: UIViewController
     
     override func viewDidLayoutSubviews()
     {
-        stackView.frame = view.frame.insetBy(dx: 50, dy: 200)
+        stackView.frame = CGRect(x: 0,
+            y: topLayoutGuide.length,
+            width: view.frame.width,
+            height: view.frame.height - topLayoutGuide.length).insetBy(dx: 50, dy: 50)
 
         toolbar.frame = CGRect(x: 0,
             y: view.frame.height - toolbar.intrinsicContentSize().height,
             width: view.frame.width,
             height: toolbar.intrinsicContentSize().height)
+        
+        unarrangedButton.frame = CGRect(x: view.frame.width - unarrangedButton.intrinsicContentSize().width - 20,
+            y: 20,
+            width: unarrangedButton.intrinsicContentSize().width,
+            height: unarrangedButton.intrinsicContentSize().height)
+        
+        unarrangedLabel.frame = CGRect(x: 20,
+            y: 20,
+            width: unarrangedLabel.intrinsicContentSize().width,
+            height: unarrangedLabel.intrinsicContentSize().height)
     }
     
 }
