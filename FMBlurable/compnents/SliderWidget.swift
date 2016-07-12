@@ -46,7 +46,7 @@ class SliderWidget: UIControl
     
     override func didMoveToSuperview()
     {
-        slider.addTarget(self, action: "sliderChangeHandler", forControlEvents: .ValueChanged)
+        slider.addTarget(self, action: #selector(SliderWidget.sliderChangeHandler), forControlEvents: .ValueChanged)
         
         layer.cornerRadius = 5
         layer.borderColor = UIColor.whiteColor().CGColor

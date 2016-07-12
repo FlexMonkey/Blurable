@@ -57,19 +57,19 @@ class ViewController: UIViewController
         
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         
-        let toggleSegmentedControl = UIBarButtonItem(title: BarButtonLabel.SegmentedControl.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+        let toggleSegmentedControl = UIBarButtonItem(title: BarButtonLabel.SegmentedControl.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-        let toggleToggleSwitch = UIBarButtonItem(title: BarButtonLabel.Switch.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+        let toggleToggleSwitch = UIBarButtonItem(title: BarButtonLabel.Switch.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-        let toggleSlider = UIBarButtonItem(title: BarButtonLabel.Slider.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+        let toggleSlider = UIBarButtonItem(title: BarButtonLabel.Slider.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-        let toggleStepper = UIBarButtonItem(title: BarButtonLabel.Stepper.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+        let toggleStepper = UIBarButtonItem(title: BarButtonLabel.Stepper.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-        let toggleUnarrangedLabel = UIBarButtonItem(title: BarButtonLabel.LabelOne.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+        let toggleUnarrangedLabel = UIBarButtonItem(title: BarButtonLabel.LabelOne.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
 
-        let toggleUnarrangedButton = UIBarButtonItem(title: BarButtonLabel.Button.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+        let toggleUnarrangedButton = UIBarButtonItem(title: BarButtonLabel.Button.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-       let toggleCompositeComponent = UIBarButtonItem(title: BarButtonLabel.CompositeComponent.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: "toolbarClickHandler:")
+       let toggleCompositeComponent = UIBarButtonItem(title: BarButtonLabel.CompositeComponent.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
         toolbar.setItems([toggleSegmentedControl, spacer,
             toggleToggleSwitch, spacer,
