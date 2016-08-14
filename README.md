@@ -40,6 +40,12 @@ Obviously, just being a protocol, it doesn't do much on its own. However, by add
     }
 ```
 
+## Installation
+
+#### Manually
+1. Download and drop ```FMBlurable.swift``` in your project.  
+2. Congratulations!  
+
 ##The Mechanics of Blurable
 
 Getting a blurred representation of a `UIView` is pretty simple: I need to begin an image context, use the view's layer's renderInContext method to render into the context and then get a UIImage from the context:
