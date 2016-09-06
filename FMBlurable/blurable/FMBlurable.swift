@@ -40,7 +40,7 @@ extension Blurable
         layer.renderInContext(UIGraphicsGetCurrentContext()!)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
-  
+        
         UIGraphicsEndImageContext();
         
         guard let blur = CIFilter(name: "CIGaussianBlur"),
@@ -48,7 +48,7 @@ extension Blurable
         {
             return
         }
-  
+        
         blur.setValue(CIImage(image: image), forKey: kCIInputImageKey)
         blur.setValue(blurRadius, forKey: kCIInputRadiusKey)
         
@@ -57,12 +57,12 @@ extension Blurable
         let result = blur.valueForKey(kCIOutputImageKey) as! CIImage!
         
         let boundingRect = CGRect(x:0,
-            y: 0,
-            width: frame.width,
-            height: frame.height)
+                                  y: 0,
+                                  width: frame.width,
+                                  height: frame.height)
         
         let cgImage = ciContext.createCGImage(result, fromRect: boundingRect)
-
+        
         let filteredImage = UIImage(CGImage: cgImage)
         
         let blurOverlay = BlurOverlay()
@@ -70,28 +70,32 @@ extension Blurable
         
         blurOverlay.image = filteredImage
         blurOverlay.contentMode = UIViewContentMode.Left
-     
-        if let superview = superview as? UIStackView,
-            index = (superview as UIStackView).arrangedSubviews.indexOf(this)
-        {
-            removeFromSuperview()
-            superview.insertArrangedSubview(blurOverlay, atIndex: index)
-        }
-        else
-        {
-            blurOverlay.frame.origin = frame.origin
-            
-            UIView.transitionFromView(this,
-                toView: blurOverlay,
-                duration: 0.2,
-                options: UIViewAnimationOptions.CurveEaseIn,
-                completion: nil)
+        
+        if #available(iOS 9.0, *) {
+            if let superview = superview as? UIStackView,
+                index = (superview as UIStackView).arrangedSubviews.indexOf(this)
+            {
+                removeFromSuperview()
+                superview.insertArrangedSubview(blurOverlay, atIndex: index)
+            }
+            else
+            {
+                blurOverlay.frame.origin = frame.origin
+                
+                UIView.transitionFromView(this,
+                                          toView: blurOverlay,
+                                          duration: 0.2,
+                                          options: UIViewAnimationOptions.CurveEaseIn,
+                                          completion: nil)
+            }
+        } else {
+            // Fallback on earlier versions
         }
         
         objc_setAssociatedObject(this,
-            &BlurableKey.blurable,
-            blurOverlay,
-            objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+                                 &BlurableKey.blurable,
+                                 blurOverlay,
+                                 objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
     }
     
     func unBlur()
@@ -102,27 +106,31 @@ extension Blurable
             return
         }
         
-        if let superview = blurOverlay.superview as? UIStackView,
-            index = (blurOverlay.superview as! UIStackView).arrangedSubviews.indexOf(blurOverlay)
-        {
-            blurOverlay.removeFromSuperview()
-            superview.insertArrangedSubview(this, atIndex: index)
-        }
-        else
-        {
-            this.frame.origin = blurOverlay.frame.origin
-            
-            UIView.transitionFromView(blurOverlay,
-                toView: this,
-                duration: 0.2,
-                options: UIViewAnimationOptions.CurveEaseIn,
-                completion: nil)
+        if #available(iOS 9.0, *) {
+            if let superview = blurOverlay.superview as? UIStackView,
+                index = (blurOverlay.superview as! UIStackView).arrangedSubviews.indexOf(blurOverlay)
+            {
+                blurOverlay.removeFromSuperview()
+                superview.insertArrangedSubview(this, atIndex: index)
+            }
+            else
+            {
+                this.frame.origin = blurOverlay.frame.origin
+                
+                UIView.transitionFromView(blurOverlay,
+                                          toView: this,
+                                          duration: 0.2,
+                                          options: UIViewAnimationOptions.CurveEaseIn,
+                                          completion: nil)
+            }
+        } else {
+            // Fallback on earlier versions
         }
         
         objc_setAssociatedObject(this,
-            &BlurableKey.blurable,
-            nil,
-            objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+                                 &BlurableKey.blurable,
+                                 nil,
+                                 objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
     }
     
     var isBlurred: Bool
