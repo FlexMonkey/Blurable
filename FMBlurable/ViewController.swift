@@ -18,7 +18,7 @@ class ViewController: UIViewController
     let slider = UISlider()
     let stepper = UIStepper()
     let unarrangedLabel = UILabel()
-    let unarrangedButton = UIButton(type: UIButtonType.InfoDark)
+    let unarrangedButton = UIButton(type: UIButtonType.infoDark)
     let compositeComponent = SliderWidget(title: "Composite Component")
     
     let toolbar = UIToolbar()
@@ -32,12 +32,12 @@ class ViewController: UIViewController
 
         stackView.frame = view.frame.insetBy(dx: 50, dy: 200)
         
-        stackView.axis = UILayoutConstraintAxis.Vertical
+        stackView.axis = UILayoutConstraintAxis.vertical
        
-        stackView.alignment = UIStackViewAlignment.Fill
-        stackView.distribution = UIStackViewDistribution.EqualSpacing
+        stackView.alignment = UIStackViewAlignment.fill
+        stackView.distribution = UIStackViewDistribution.equalSpacing
         
-        horizontalStackView.distribution = UIStackViewDistribution.FillEqually
+        horizontalStackView.distribution = UIStackViewDistribution.fillEqually
         
         stackView.addArrangedSubview(segmentedControl)
         stackView.addArrangedSubview(slider)
@@ -51,25 +51,25 @@ class ViewController: UIViewController
 
         view.addSubview(unarrangedLabel)
         
-        unarrangedButton.setTitle("Unarranged Button", forState: UIControlState.Normal)
+        unarrangedButton.setTitle("Unarranged Button", for: UIControlState())
         
         view.addSubview(unarrangedButton)
         
-        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
-        let toggleSegmentedControl = UIBarButtonItem(title: BarButtonLabel.SegmentedControl.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
+        let toggleSegmentedControl = UIBarButtonItem(title: BarButtonLabel.SegmentedControl.rawValue, style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-        let toggleToggleSwitch = UIBarButtonItem(title: BarButtonLabel.Switch.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
+        let toggleToggleSwitch = UIBarButtonItem(title: BarButtonLabel.Switch.rawValue, style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-        let toggleSlider = UIBarButtonItem(title: BarButtonLabel.Slider.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
+        let toggleSlider = UIBarButtonItem(title: BarButtonLabel.Slider.rawValue, style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-        let toggleStepper = UIBarButtonItem(title: BarButtonLabel.Stepper.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
+        let toggleStepper = UIBarButtonItem(title: BarButtonLabel.Stepper.rawValue, style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-        let toggleUnarrangedLabel = UIBarButtonItem(title: BarButtonLabel.LabelOne.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
+        let toggleUnarrangedLabel = UIBarButtonItem(title: BarButtonLabel.LabelOne.rawValue, style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
 
-        let toggleUnarrangedButton = UIBarButtonItem(title: BarButtonLabel.Button.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
+        let toggleUnarrangedButton = UIBarButtonItem(title: BarButtonLabel.Button.rawValue, style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
-       let toggleCompositeComponent = UIBarButtonItem(title: BarButtonLabel.CompositeComponent.rawValue, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
+       let toggleCompositeComponent = UIBarButtonItem(title: BarButtonLabel.CompositeComponent.rawValue, style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.toolbarClickHandler(_:)))
         
         toolbar.setItems([toggleSegmentedControl, spacer,
             toggleToggleSwitch, spacer,
@@ -80,10 +80,10 @@ class ViewController: UIViewController
             toggleCompositeComponent], animated: false)
     }
 
-    func toolbarClickHandler(barButtonItem: UIBarButtonItem)
+    func toolbarClickHandler(_ barButtonItem: UIBarButtonItem)
     {
         guard let title = barButtonItem.title,
-            barButtonLabel = BarButtonLabel(rawValue: title) else
+            let barButtonLabel = BarButtonLabel(rawValue: title) else
         {
             return
         }
@@ -126,19 +126,19 @@ class ViewController: UIViewController
             height: view.frame.height - topLayoutGuide.length).insetBy(dx: 50, dy: 50)
 
         toolbar.frame = CGRect(x: 0,
-            y: view.frame.height - toolbar.intrinsicContentSize().height,
+            y: view.frame.height - toolbar.intrinsicContentSize.height,
             width: view.frame.width,
-            height: toolbar.intrinsicContentSize().height)
+            height: toolbar.intrinsicContentSize.height)
         
-        unarrangedButton.frame = CGRect(x: view.frame.width - unarrangedButton.intrinsicContentSize().width - 20,
+        unarrangedButton.frame = CGRect(x: view.frame.width - unarrangedButton.intrinsicContentSize.width - 20,
             y: 20,
-            width: unarrangedButton.intrinsicContentSize().width,
-            height: unarrangedButton.intrinsicContentSize().height)
+            width: unarrangedButton.intrinsicContentSize.width,
+            height: unarrangedButton.intrinsicContentSize.height)
         
         unarrangedLabel.frame = CGRect(x: 20,
             y: 20,
-            width: unarrangedLabel.intrinsicContentSize().width,
-            height: unarrangedLabel.intrinsicContentSize().height)
+            width: unarrangedLabel.intrinsicContentSize.width,
+            height: unarrangedLabel.intrinsicContentSize.height)
     }
     
 }

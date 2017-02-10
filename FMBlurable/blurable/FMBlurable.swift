@@ -17,10 +17,10 @@ protocol Blurable
     var frame: CGRect { get }
     var superview: UIView? { get }
     
-    func addSubview(view: UIView)
+    func addSubviewTo(_ view: UIView)
     func removeFromSuperview()
     
-    func blur(blurRadius blurRadius: CGFloat)
+    func blur(blurRadius: CGFloat)
     func unBlur()
     
     var isBlurred: Bool { get }
@@ -28,7 +28,7 @@ protocol Blurable
 
 extension Blurable
 {
-    func blur(blurRadius blurRadius: CGFloat)
+    func blur(blurRadius: CGFloat)
     {
         if self.superview == nil
         {
@@ -37,54 +37,54 @@ extension Blurable
         
         UIGraphicsBeginImageContextWithOptions(CGSize(width: frame.width, height: frame.height), false, 1)
         
-        layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        layer.render(in: UIGraphicsGetCurrentContext()!)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
   
         UIGraphicsEndImageContext();
         
         guard let blur = CIFilter(name: "CIGaussianBlur"),
-            this = self as? UIView else
+            let this = self as? UIView else
         {
             return
         }
   
-        blur.setValue(CIImage(image: image), forKey: kCIInputImageKey)
+        blur.setValue(CIImage(image: image!), forKey: kCIInputImageKey)
         blur.setValue(blurRadius, forKey: kCIInputRadiusKey)
         
         let ciContext  = CIContext(options: nil)
         
-        let result = blur.valueForKey(kCIOutputImageKey) as! CIImage!
+        let result = blur.value(forKey: kCIOutputImageKey) as! CIImage!
         
         let boundingRect = CGRect(x:0,
             y: 0,
             width: frame.width,
             height: frame.height)
         
-        let cgImage = ciContext.createCGImage(result, fromRect: boundingRect)
+        let cgImage = ciContext.createCGImage(result!, from: boundingRect)
 
-        let filteredImage = UIImage(CGImage: cgImage)
+        let filteredImage = UIImage(cgImage: cgImage!)
         
         let blurOverlay = BlurOverlay()
         blurOverlay.frame = boundingRect
         
         blurOverlay.image = filteredImage
-        blurOverlay.contentMode = UIViewContentMode.Left
+        blurOverlay.contentMode = UIViewContentMode.left
      
         if let superview = superview as? UIStackView,
-            index = (superview as UIStackView).arrangedSubviews.indexOf(this)
+            let index = (superview as UIStackView).arrangedSubviews.index(of: this)
         {
             removeFromSuperview()
-            superview.insertArrangedSubview(blurOverlay, atIndex: index)
+            superview.insertArrangedSubview(blurOverlay, at: index)
         }
         else
         {
             blurOverlay.frame.origin = frame.origin
             
-            UIView.transitionFromView(this,
-                toView: blurOverlay,
+            UIView.transition(from: this,
+                              to: blurOverlay,
                 duration: 0.2,
-                options: UIViewAnimationOptions.CurveEaseIn,
+                options: UIViewAnimationOptions.curveEaseIn,
                 completion: nil)
         }
         
@@ -97,25 +97,25 @@ extension Blurable
     func unBlur()
     {
         guard let this = self as? UIView,
-            blurOverlay = objc_getAssociatedObject(self as? UIView, &BlurableKey.blurable) as? BlurOverlay else
+            let blurOverlay = objc_getAssociatedObject(self as? UIView, &BlurableKey.blurable) as? BlurOverlay else
         {
             return
         }
         
         if let superview = blurOverlay.superview as? UIStackView,
-            index = (blurOverlay.superview as! UIStackView).arrangedSubviews.indexOf(blurOverlay)
+            let index = (blurOverlay.superview as! UIStackView).arrangedSubviews.index(of: blurOverlay)
         {
             blurOverlay.removeFromSuperview()
-            superview.insertArrangedSubview(this, atIndex: index)
+            superview.insertArrangedSubview(this, at: index)
         }
         else
         {
             this.frame.origin = blurOverlay.frame.origin
             
-            UIView.transitionFromView(blurOverlay,
-                toView: this,
+            UIView.transition(from: blurOverlay,
+                              to: this,
                 duration: 0.2,
-                options: UIViewAnimationOptions.CurveEaseIn,
+                options: UIViewAnimationOptions.curveEaseIn,
                 completion: nil)
         }
         
@@ -133,6 +133,17 @@ extension Blurable
 
 extension UIView: Blurable
 {
+    internal func addSubviewTo(_ view: UIView) {
+        self.addSubview(view)
+    }
+
+    class func blur() {
+        self.blur()
+    }
+    
+    class func unBlur() {
+        self.unBlur()
+    }
 }
 
 class BlurOverlay: UIImageView
