@@ -10,12 +10,12 @@ import UIKit
 
 class SliderWidget: UIControl
 {
-    let slider = UISlider(frame: CGRectZero)
-    let label = UILabel(frame: CGRectZero)
+    let slider = UISlider(frame: CGRect.zero)
+    let label = UILabel(frame: CGRect.zero)
     
     required init(title: String)
     {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
         self.title = title
         
@@ -46,22 +46,21 @@ class SliderWidget: UIControl
     
     override func didMoveToSuperview()
     {
-        slider.addTarget(self, action: #selector(SliderWidget.sliderChangeHandler), forControlEvents: .ValueChanged)
+        slider.addTarget(self, action: #selector(SliderWidget.sliderChangeHandler), for: .valueChanged)
         
         layer.cornerRadius = 5
-        layer.borderColor = UIColor.whiteColor().CGColor
+        layer.borderColor = UIColor.white.cgColor
         layer.borderWidth = 2
-        layer.backgroundColor = UIColor.darkGrayColor().colorWithAlphaComponent(0.25).CGColor
+        layer.backgroundColor = UIColor.darkGray.withAlphaComponent(0.25).cgColor
         
-        addSubview(slider)
-        addSubview(label)
+        add(subview: slider)
+        add(subview: label)
     }
     
-    func sliderChangeHandler()
+    @objc func sliderChangeHandler()
     {
         value = slider.value
-        
-        sendActionsForControlEvents(.ValueChanged)
+        sendActions(for: .valueChanged)
     }
     
     func updateLabel()
@@ -75,8 +74,7 @@ class SliderWidget: UIControl
         slider.frame = CGRect(x: 0, y: frame.height / 2, width: frame.width, height: frame.height / 2).insetBy(dx: 5, dy: 5)
     }
     
-    override func intrinsicContentSize() -> CGSize
-    {
-        return CGSize(width: 640, height: 75)
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 640, height: 200)
     }
 }
