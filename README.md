@@ -1,7 +1,7 @@
 # Blurable
-###Apply a Gaussian Blur to any UIView with Swift Protocol Extensions
+### Apply a Gaussian Blur to any UIView with Swift Protocol Extensions
 
-##### _Adds `blur()` and `unBlur()` methods to `UIView` components which applies a Core Image Gaussian blur filter to the contents._
+### _Adds `blur()` and `unBlur()` methods to `UIView` components which applies a Core Image Gaussian blur filter to the contents._
 
 ######_Companion project to this blog post: http://flexmonkey.blogspot.co.uk/2015/09/applying-gaussian-blur-to-uiviews-with.html_
 
@@ -46,7 +46,7 @@ Obviously, just being a protocol, it doesn't do much on its own. However, by add
 1. Download and drop ```FMBlurable.swift``` in your project.  
 2. Congratulations!  
 
-##The Mechanics of Blurable
+## The Mechanics of Blurable
 
 Getting a blurred representation of a `UIView` is pretty simple: I need to begin an image context, use the view's layer's renderInContext method to render into the context and then get a UIImage from the context:
 
@@ -171,7 +171,7 @@ Finally, to see if a `UIView` is currently blurred, I created `isBlurred()` whic
     }
 ```    
     
-##Blurring a UIView
+## Blurring a UIView
 
 To blur and de-blur, just invoke `blur()` and `unBlur()` on an UIView:
 
@@ -180,6 +180,6 @@ To blur and de-blur, just invoke `blur()` and `unBlur()` on an UIView:
     segmentedControl.blur(blurRadius: 2)
 ```
 
-##Source Code
+## Source Code
 
 As always, the source code for this project is available at my GitHub repository here. Enjoy!
